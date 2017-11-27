@@ -24,27 +24,27 @@ const _updateState = () => {
 }
 
 class Home extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = _updateState();
-            this.state.isOpenDrawer = false;
-            this.storeSubcriber = this._onChanges.bind(this);
+    this.state.isOpenDrawer = false;
+    this.storeSubcriber = this._onChanges.bind(this);
 	}
 
-    _onChanges() {
-      this.setState(_updateState());
-    }
+  _onChanges() {
+    this.setState(_updateState());
+  }
 
 	componentWillMount() {
-            HomeStore.addChangeListener(this.storeSubcriber);
+    HomeStore.addChangeListener(this.storeSubcriber);
 		this.router = this.props.router;
-            _testYourFlux();
-            setTimeout(() => { console.log('test your flux response', this.state.test); }, 2000);
+    _testYourFlux();
+    setTimeout(() => { console.log('test your flux response', this.state.test); }, 2000);
 	}
 
-      componentWillUnmount() {
-        HomeStore.removeChangeListener(this.storeSubcriber);
-      }
+  componentWillUnmount() {
+    HomeStore.removeChangeListener(this.storeSubcriber);
+  }
 
 	navigateSomewhere(somewhere) {
 		this.router.push(somewhere);
@@ -63,8 +63,8 @@ class Home extends Component {
 		return this.props !== nextProps;
 	}
 
-	HandleNavigationUsers = () => {
-		this.navigateSomewhere('users');
+	handleNaviguationHorses = () => {
+		this.navigateSomewhere('horses');
 	}
 
 	handleOpenDrawer = () => {
@@ -80,38 +80,38 @@ class Home extends Component {
 	}
 
 	renderMenu() {
-        return(
-          <IconMenu
-            iconButtonElement={<IconButton><MoreVertIcon/></IconButton>}
-		targetOrigin={{horizontal: 'right', vertical: 'top'}}
-		anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-          >
-          <MenuItem primaryText="Actualiser"/>
-          <MenuItem primaryText="Aide"/>
-          <MenuItem primaryText="Apropos"/>
-          </IconMenu>
+    return(
+      <IconMenu
+        iconButtonElement={<IconButton><MoreVertIcon/></IconButton>}
+    		targetOrigin={{horizontal: 'right', vertical: 'top'}}
+    		anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+      >
+        <MenuItem primaryText="Actualiser"/>
+        <MenuItem primaryText="Aide"/>
+        <MenuItem primaryText="Apropos"/>
+      </IconMenu>
 	  );
-      }
+  }
 
-      render() {
-        return(
-          <div>
-            <Drawer
-              docked={false}
-              width={'25%'}
-              open={this.state.isOpenDrawer}
-              onRequestChange={this.handleDrawerChange}
-            >
-              <MenuItem onTouchTap={this.HandleNavigationUsers}>Configuration</MenuItem>
-              <MenuItem onTouchTap={this.handleCloseDrawer}>Menu Item 2</MenuItem>
-            </Drawer>
-            <AppBar
-              title="WELCOME TO REACT"
-              iconElementLeft={<IconButton><ActionHome onTouchTap={this.handleOpenDrawer}/></IconButton>}
-              iconElementRight={this.renderMenu()}
-            />
-          </div>
-        );
+  render() {
+    return(
+      <div>
+        <Drawer
+          docked={false}
+          width={'25%'}
+          open={this.state.isOpenDrawer}
+          onRequestChange={this.handleDrawerChange}
+        >
+          <MenuItem onTouchTap={this.handleNaviguationHorses}>Chevaux</MenuItem>
+          <MenuItem onTouchTap={this.handleCloseDrawer}>Menu Item 2</MenuItem>
+        </Drawer>
+        <AppBar
+          title="WELCOME TO REACT"
+          iconElementLeft={<IconButton><ActionHome onTouchTap={this.handleOpenDrawer}/></IconButton>}
+          iconElementRight={this.renderMenu()}
+        />
+      </div>
+    );
 	}
 
 }

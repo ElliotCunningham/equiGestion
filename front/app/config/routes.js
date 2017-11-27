@@ -3,6 +3,7 @@ import Main from '../components/Main';
 import Home from '../components/Home';
 
 import UsersContainers from '../components/users/UsersContainers';
+import HorsesContainers from '../components/horses/HorsesContainers';
 
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 
@@ -13,6 +14,7 @@ export default (
     	<IndexRoute name="home" component={Home}/>
 
       <Route name='users' path='/users' component={UsersContainers} />
+      <Route name='horses' path='horses' component={HorsesContainers}/>
     </Route>
   </Router>
 );
