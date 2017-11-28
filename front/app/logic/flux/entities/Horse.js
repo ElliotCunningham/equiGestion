@@ -11,6 +11,11 @@ const HorsesRecord = Immutable.Record({
   lastRide: false,
   lastRider: false,
   vetoInfo: {},
+  sha: {
+    pere: '',
+    mere: '',
+    race: '',
+  },
   created: new Date().toISOString(),
   updated: new Date().toISOString(),
 });

@@ -57,11 +57,11 @@ class HorseList extends Component {
     console.log('props', this.props);
     return(
       <div className="listeHorses" style={{ display: 'flex' }}>
-        <div className="liste" style={{ float: 'left', width: '90%' }}>
+        <div className="liste" style={{ float: 'left', width: '80%', marginTop: '5%', marginLeft: '5%', marginRight: '5%' }}>
           {this.getListHorse()}
         </div>
 
-        <div className="action" style={{ float: 'right', width: '10%', display: 'block' }}>
+        <div className="action" style={{ float: 'right', width: '10%', display: 'block', marginTop: '20%', marginLeft: 'auto' }}>
           <FloatingActionButton onTouchTap={this.handleTouchCreate} style={{marginTop:'5%', marginLeft: 'auto'}}>
             <ContentAdd />
           </FloatingActionButton>

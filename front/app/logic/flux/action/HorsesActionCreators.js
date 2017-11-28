@@ -24,7 +24,11 @@ class HorsesActionCreators {
     this.initHorseBdd();
     return HorsesBddApi.fetchAllDocuments()
       .then((res) => {
-        console.log(res);
+        const horses = res.rows.map((row) => row.doc);
+        AppDispatcher.dispatch({
+          type: ActionTypes.INIT_HORSE,
+          data: horses
+        });
       })
       .catch((err) => {
         console.error('error get all docs horse Bdd', err);

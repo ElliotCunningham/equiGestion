@@ -25,6 +25,14 @@ class HorseStore extends BaseStore {
     this.emitChange();
   }
 
+  initHorseInStore(horses) {
+    horses.map((horse) => {
+      this.horses = this.horses.set(horse._id, new Horse(horse));
+    });
+
+    this.emitChange();
+  }
+
   updateHorseInStore(horseUpdate) {
     const horse = new Horse(horseUpdate);
 
@@ -71,6 +79,9 @@ HorseStoreInstance.dispatchToken = AppDispatcher.register((action) => {
     case ActionTypes.CREATE_HORSE:
       HorseStoreInstance.setHorseInStore(action.data);
       break;
+
+    case ActionTypes.INIT_HORSE:
+      HorseStoreInstance.initHorseInStore(action.data);
 
     default :
       return;
