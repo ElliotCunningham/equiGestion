@@ -11,6 +11,8 @@ import MenuItem from 'material-ui/MenuItem';
 
 const nouritures = ['orge', 'avoine', 'granulé', 'vitamine'];
 const rations = ['0.5 Litre', '1 Litre', '1.5 Litre', '2 Litre', '2.5 Litre', '3 Litre', '3.5 Litre', '4 Litre'];
+const races = ['pure sang', 'selle francais', 'connemara', 'irish sport horse', 'selle espagnole'];
+const robes = ['alezan', 'baie', 'pie', 'café', 'gris', 'noir'];
 
 class HorseFormModal extends Component {
 
@@ -26,6 +28,15 @@ class HorseFormModal extends Component {
         midi: { type: '', qty: '' },
         soir: { type: '', qty: '' },
       },
+      lastVeto: '',
+      grippeEquine: '',
+      rhinopneumonie: '',
+      tetanos: '',
+      race: '',
+      pere: '',
+      mere: '',
+      robe: '',
+      image: false,
     };
   }
 
@@ -56,6 +67,25 @@ class HorseFormModal extends Component {
 
   closeModal = () => {
     this.setState({ isOpen: false });
+  }
+
+  openModalWithHorse = (horse) => {
+    this.setState({
+      horse: horse,
+      _id: horse._id,
+      nouriture: horse.ration,
+      race: horse.race,
+      pere: horse.pere,
+      mere: horse.mere,
+      robe: horse.robe,
+      image: horse.image,
+      dateBirthday: horse.birthday,
+      lastVeto: (horse.vetoInfo.lastVeto) ? new Date(horse.vetoInfo.lastVeto) : '',
+      grippeEquine: (horse.vetoInfo.grippeEquine) ? new Date(horse.vetoInfo.grippeEquine) : '',
+      rhinopneumonie: (horse.vetoInfo.rhinopneumonie) ? new Date(horse.vetoInfo.rhinopneumonie) : '',
+      tetanos: (horse.vetoInfo.tetanos) ? new Date(horse.vetoInfo.tetanos) : '',
+      isOpen: true
+    });
   }
 
   onChangeCurrentTab = (value) => {
@@ -111,12 +141,20 @@ class HorseFormModal extends Component {
     });
   }
 
-  SelectFieldRationSoirChange = () => {
+  SelectFieldRationSoirChange = (event, index, value) => {
     this.setState((state) => {
       const nouriture = state.nouriture;
       nouriture.soir.qty = value;
       return nouriture;
     });
+  }
+
+  selectFieldRaceChange = (event, index, value) => {
+    this.setState({ race: value });
+  }
+
+  selectFieldRobeChange = (event, index, value) => {
+    this.setState({ robe: value });
   }
 
   getDataHorse = () => {
@@ -127,6 +165,10 @@ class HorseFormModal extends Component {
       birthday: this.refs.datePicker.state.date,
       vetoInfo: this.getDateValueVeto(),
       ration: this.state.nouriture,
+      race: this.state.race,
+      pere: this.refs.pereTextField.getValue(),
+      mere: this.refs.mereTextField.getValue(),
+      robe: this.state.robe,
     };
   }
 
@@ -142,13 +184,25 @@ class HorseFormModal extends Component {
 
   getDataNouriture = () => {
     return nouritures.map((nouriture) => {
-      return <MenuItem value={nouriture} primaryText={nouriture}></MenuItem>
+      return <MenuItem value={nouriture} primaryText={nouriture} key={nouriture}></MenuItem>
     });
   }
 
   getDataRation = () => {
     return rations.map((ration) => {
-      return <MenuItem value={ration} primaryText={ration}></MenuItem>
+      return <MenuItem value={ration} primaryText={ration} key={ration}></MenuItem>
+    });
+  }
+
+  getDataRaces = () => {
+    return races.map((race) => {
+      return <MenuItem value={race} primaryText={race} key={race}></MenuItem>
+    });
+  }
+
+  getDataRobes = () => {
+    return robes.map((robe) => {
+      return <MenuItem value={robe} primaryText={robe} key={robe}></MenuItem>
     });
   }
 
@@ -211,23 +265,58 @@ class HorseFormModal extends Component {
       <div className="infoVeto">
         <div style={{ display: 'flex', marginTop: '5%' }}>
           <label style={{ marginTop: '2%' }}>Grippe équine</label>
-          <DatePicker hintText="Date du vaccin grippe équine" mode="landscape" ref="datePickerGrippe" style={{ marginLeft: '20%'}}/>
+          <DatePicker defaultDate={this.state.grippeEquine} hintText="Date du vaccin grippe équine" mode="landscape" ref="datePickerGrippe" style={{ marginLeft: '20%'}}/>
         </div>
         <div style={{ display: 'flex', marginTop: '5%' }}>
           <label style={{ marginTop: '2%' }}>Rhinopneumonie</label>
-          <DatePicker hintText="Date du vaccin rhinopneumonie" mode="landscape" ref="datePickerRhinopneumonie" style={{ marginLeft: '18%'}}/>
+          <DatePicker defaultDate={this.state.rhinopneumonie} hintText="Date du vaccin rhinopneumonie" mode="landscape" ref="datePickerRhinopneumonie" style={{ marginLeft: '18%'}}/>
         </div>
         <div style={{ display: 'flex', marginTop: '5%' }}>
           <label style={{ marginTop: '2%' }}>Tétanos</label>
-          <DatePicker hintText="Date du vaccin Tétanos" mode="landscape" ref="datePickerTetanos" style={{ marginLeft: '25%'}}/>
+          <DatePicker defaultDate={this.state.tetanos} hintText="Date du vaccin Tétanos" mode="landscape" ref="datePickerTetanos" style={{ marginLeft: '25%'}}/>
         </div>
         <div style={{ display: 'flex', marginTop: '5%' }}>
           <label style={{ marginTop: '2%' }}>Derniere visite véterinaire</label>
-          <DatePicker hintText="Date derniére visite véto" mode="landscape" ref="datePickerVisiteVeto" style={{ marginLeft: '11%'}}/>
+          <DatePicker defaultDate={this.state.lastVeto} hintText="Date derniére visite véto" mode="landscape" ref="datePickerVisiteVeto" style={{ marginLeft: '11%'}}/>
         </div>
         <br/>
         <br/>
         <br/>
+      </div>
+    );
+  }
+
+  getInfoSha() {
+    return(
+      <div className="infoSha">
+        <div style={{ display: 'flex', marginTop: '5%' }}>
+          <label style={{ marginTop: '5%' }}>Race de l'équidé : </label>
+          <SelectField floatingLabelText="selectioner la race" onChange={this.selectFieldRaceChange} value={this.state.race}>
+            {this.getDataRaces()}
+          </SelectField>
+        </div>
+        <div style={{ display: 'flex', marginTop: '5%' }}>
+          <label style={{ marginTop: '5%' }}> Robe de l'équidé : </label>
+          <SelectField floatingLabelText="selectioner la robe" onChange={this.selectFieldRobeChange} value={this.state.robe}>
+            {this.getDataRobes()}
+          </SelectField>
+        </div>
+        <div style={{ marginTop: '5%' }}>
+          <TextField
+            hintText="Pére du cheval"
+            fullWidth={true}
+            defaultValue={(this.state.horse) ?this.state.horse.pere :""}
+            ref="pereTextField"
+            style={{marginTop: "3%", marginLeft: "auto"}}
+          />
+          <TextField
+            hintText="Mére du cheval"
+            fullWidth={true}
+            defaultValue={(this.state.horse) ?this.state.horse.mere :""}
+            ref="mereTextField"
+            style={{marginTop: "3%", marginLeft: "auto"}}
+          />
+        </div>
       </div>
     );
   }
@@ -249,7 +338,7 @@ class HorseFormModal extends Component {
 
   render() {
     const actions = this.getActions();
-    console.log('actions ==>', actions);
+    console.log(this.state);
     return(
       <Dialog
         title="Nouveaux Cheval"
@@ -265,12 +354,13 @@ class HorseFormModal extends Component {
           <Tab label="info véterinaire" value={2}>
             {this.getInformationVeto()}
           </Tab>
+          <Tab label="info sha" value={3}>
+            {this.getInfoSha()}
+          </Tab>
         </Tabs>
       </Dialog>
     );
   }
-
-
 
 }
 

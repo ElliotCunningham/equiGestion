@@ -79,13 +79,16 @@ class HorsesContainer extends Component {
     // _createHosre(data);
   }
 
+  editHorse = (horse) => {
+    this.refs.horseFormModal.openModalWithHorse(horse);
+  }
+
   handleCreateHorse = (horse) => {
     console.log(horse);
     _createHosre(horse);
   }
 
   render() {
-    console.log(this.state);
     return(
       <div>
         <HorseFormModal
@@ -99,6 +102,7 @@ class HorsesContainer extends Component {
         />
         <HorseList
           createHorse={this.createHorse}
+          editHorse={this.editHorse}
           horses={this.state.horses}
         />
       </div>

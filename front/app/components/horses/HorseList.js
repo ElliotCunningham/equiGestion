@@ -29,6 +29,7 @@ class HorseList extends Component {
   }
 
   didStateChanged(nextState) {
+    if (this.state.currentHorse !== nextState.currentHorse) return true;
     return false;
   }
 
@@ -47,14 +48,21 @@ class HorseList extends Component {
     this.props.createHorse();
   }
 
+  handleTouchEdit = () => {
+    this.props.editHorse(this.state.currentHorse);
+  }
+
+  setCurrentHorse = (horse) => {
+    this.setState({ currentHorse: horse });
+  }
+
   getListHorse = () => {
-    return this.props.horses.map((horse) => {
-      return <HorseCard horse={horse} id={horse._id} />
+    return this.props.horses.toArray().map((horse) => {
+      return <HorseCard horse={horse} id={horse._id} key={horse._id} setCurrentHorse={this.setCurrentHorse} />
     });
   }
 
   render() {
-    console.log('props', this.props);
     return(
       <div className="listeHorses" style={{ display: 'flex' }}>
         <div className="liste" style={{ float: 'left', width: '80%', marginTop: '5%', marginLeft: '5%', marginRight: '5%' }}>
@@ -66,7 +74,7 @@ class HorseList extends Component {
             <ContentAdd />
           </FloatingActionButton>
           <br/>
-          <FloatingActionButton secondary={true} style={{marginTop:'5%', marginLeft: 'auto'}}>
+          <FloatingActionButton onTouchTap={this.handleTouchEdit} secondary={true} style={{marginTop:'5%', marginLeft: 'auto'}}>
             <ContentEdit />
           </FloatingActionButton>
           <br/>

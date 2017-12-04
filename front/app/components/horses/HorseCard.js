@@ -35,13 +35,14 @@ class HorseCard extends Component {
     return false;
   }
 
-  handleExpand = () => {
-    this.setState({isExpand: true});
-  };
+  getAgeHorse = () => {
+    return Math.round((new Date() - new Date(this.props.horse.birthday)) * 0.00000000003171);
+  }
 
-  handleReduce = () => {
-    this.setState({isExpand: false});
-  };
+  handleExpandChange = (value) => {
+    console.log(value);
+    if (value) this.props.setCurrentHorse(this.props.horse);
+  }
 
   render() {
     return(
@@ -54,6 +55,18 @@ class HorseCard extends Component {
             actAsExpander={true}
             showExpandableButton={true}
           />
+          <CardMedia
+            expandable={true}
+            overlay={<CardTitle title={`${this.props.horse.firstName} ${this.props.horse.lastName}`} subtitle={`${this.props.horse.race} ${this.props.horse.robe} de ${this.getAgeHorse()} ans`} />}
+          >
+            <img src="image/quaterBarbaste.jpg" alt={this.props.horse.firstName} />
+          </CardMedia>
+          <CardText expandable={true}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
+            Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
+            Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+        </CardText>
         </Card>
       </div>
     );
