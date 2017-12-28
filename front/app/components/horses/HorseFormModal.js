@@ -28,10 +28,10 @@ class HorseFormModal extends Component {
         midi: { type: '', qty: '' },
         soir: { type: '', qty: '' },
       },
-      lastVeto: '',
-      grippeEquine: '',
-      rhinopneumonie: '',
-      tetanos: '',
+      lastVeto: new Date(),
+      grippeEquine: new Date(),
+      rhinopneumonie: new Date(),
+      tetanos: new Date(),
       race: '',
       pere: '',
       mere: '',
@@ -173,7 +173,6 @@ class HorseFormModal extends Component {
   }
 
   getDateValueVeto() {
-    console.log('refs date ==>', this.refs.datePickerGrippe);
     return {
       grippeEquine: this.refs.datePickerGrippe.state.date,
       rhinopneumonie: this.refs.datePickerRhinopneumonie.state.date,
@@ -338,7 +337,6 @@ class HorseFormModal extends Component {
 
   render() {
     const actions = this.getActions();
-    console.log(this.state);
     return(
       <Dialog
         title="Nouveaux Cheval"

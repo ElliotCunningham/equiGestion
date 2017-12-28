@@ -34,14 +34,14 @@ class HorseList extends Component {
   }
 
   didPropsChanged(nextProps) {
-    if (this.props !== nextProps) return true;
+    if (this.props.horses !== nextProps.horses) return true;
     return false;
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if (this.didStateChanged(nextState)) return true;
-    if (this.didPropsChanged(nextProps)) return true;
-    return false;
+    // if (this.didStateChanged(nextState)) return true;
+    // if (this.didPropsChanged(nextProps)) return true;
+    return true;
   }
 
   handleTouchCreate = () => {
@@ -58,7 +58,7 @@ class HorseList extends Component {
 
   getListHorse = () => {
     return this.props.horses.toArray().map((horse) => {
-      return <HorseCard horse={horse} id={horse._id} key={horse._id} setCurrentHorse={this.setCurrentHorse} />
+      return <HorseCard horse={horse} id={horse._id} key={horse._id} setCurrentHorse={this.setCurrentHorse} updateHorse={this.props.updateHorse} />
     });
   }
 
@@ -74,11 +74,7 @@ class HorseList extends Component {
             <ContentAdd />
           </FloatingActionButton>
           <br/>
-          <FloatingActionButton onTouchTap={this.handleTouchEdit} secondary={true} style={{marginTop:'5%', marginLeft: 'auto'}}>
-            <ContentEdit />
-          </FloatingActionButton>
-          <br/>
-          <FloatingActionButton style={{marginTop:'5%', marginLeft: 'auto', color: 'white'}}>
+          <FloatingActionButton secondary={true} style={{marginTop:'5%', marginLeft: 'auto', color: 'white'}}>
             <ContentRemove />
           </FloatingActionButton>
         </div>

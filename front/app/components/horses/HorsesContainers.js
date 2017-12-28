@@ -11,6 +11,10 @@ const _createHosre = (data) => {
   return HorsesActionCreators.createHorse(data);
 }
 
+const _updateHorse = (data) => {
+  return HorsesActionCreators.updateHorse(data);
+}
+
 const _updateState = () => {
   const horses = HorseStore.getAllHorses();
   const currentHorse = HorseStore.getCurrentHorses();
@@ -44,7 +48,6 @@ class HorsesContainer extends Component {
   }
 
   handleNavigation = () => {
-    console.log(this.router);
     this.router.push('/');
   }
 
@@ -88,7 +91,13 @@ class HorsesContainer extends Component {
     _createHosre(horse);
   }
 
+  handleUpdateHorse = (horse) => {
+    console.log(horse);
+    _updateHorse(horse);
+  }
+
   render() {
+    console.log(this.state.horses.toJS());
     return(
       <div>
         <HorseFormModal
@@ -96,12 +105,13 @@ class HorsesContainer extends Component {
           createHorse={this.handleCreateHorse}
         />
         <SharedToolBar
-          nbData={5}
+          nbData={this.state.horses.size || 0}
           name="Cheveaux"
           handleNavigation={this.handleNavigation}
         />
         <HorseList
           createHorse={this.createHorse}
+          updateHorse={this.handleUpdateHorse}
           editHorse={this.editHorse}
           horses={this.state.horses}
         />

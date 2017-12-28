@@ -67,6 +67,10 @@ class Home extends Component {
 		this.navigateSomewhere('horses');
 	}
 
+  handleNaviguationCalendar = () => {
+    this.navigateSomewhere('calendar');
+  }
+
 	handleOpenDrawer = () => {
 		this.setState({ isOpenDrawer: true });
 	}
@@ -103,6 +107,7 @@ class Home extends Component {
           onRequestChange={this.handleDrawerChange}
         >
           <MenuItem onTouchTap={this.handleNaviguationHorses}>Chevaux</MenuItem>
+          <MenuItem onTouchTap={this.handleNaviguationCalendar}>Calendrier</MenuItem>
           <MenuItem onTouchTap={this.handleCloseDrawer}>Menu Item 2</MenuItem>
         </Drawer>
         <AppBar
@@ -117,4 +122,3 @@ class Home extends Component {
 }
 
 export default Home;
-

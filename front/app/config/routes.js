@@ -4,6 +4,7 @@ import Home from '../components/Home';
 
 import UsersContainers from '../components/users/UsersContainers';
 import HorsesContainers from '../components/horses/HorsesContainers';
+import CalendarContainer from '../components/calendar/CalendarContainer';
 
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 
@@ -14,7 +15,8 @@ export default (
     	<IndexRoute name="home" component={Home}/>
 
       <Route name='users' path='/users' component={UsersContainers} />
-      <Route name='horses' path='horses' component={HorsesContainers}/>
+      <Route name='horses' path='/horses' component={HorsesContainers}/>
+      <Route name='calendar' path='/calendar' component={CalendarContainer}/>
     </Route>
   </Router>
 );

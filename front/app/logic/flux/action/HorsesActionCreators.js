@@ -58,6 +58,27 @@ class HorsesActionCreators {
       });
   }
 
+  updateHorse(horse) {
+    this.initHorseBdd();
+    const horseUpdate = (typeof horse.getLastOutInfo === 'undefined')
+      ? new Horse(horse)
+      : horse;
+      
+    HorsesBddApi.updateDocument(horseUpdate.toJS())
+      .then((res) => {
+        console.log('res update', res);
+        const horseUpdated = horseUpdate.update('_rev', () => res.rev);
+        AppDispatcher.dispatch({
+          type: ActionTypes.UPDATE_HORSE_IN_STORE,
+          data: horseUpdated
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        throw new Error(err);
+      });
+  }
+
 
 
   HorsesBddChange(change) {
