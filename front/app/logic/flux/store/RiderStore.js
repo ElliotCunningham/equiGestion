@@ -1,12 +1,14 @@
 import ActionTypes from '../constant/RidersConstant';
-import Rider from '../entities/Hosre';
+import Rider from '../entities/Rider';
 import AppDispatcher from '../AppDispatcher';
 import BaseStore from '../base/BaseStore';
+
+import { Map } from 'immutable';
 
 class RiderStore extends BaseStore {
   constructor() {
     super('riders');
-    this.riders = [];
+    this.riders = new Map();
     this.currentRider = false;
   }
 
@@ -14,33 +16,25 @@ class RiderStore extends BaseStore {
     return this.riders;
   }
 
-  getCurrentRiders() {
+  getCurrentRider() {
     return this.currentRider;
   }
 
   setRiderInStore(data) {
-    const horse = new Rider(data);
-    this.riders.push(horse);
+    this.riders = this.riders.set(data._id, new Rider(data));
 
     this.emitChange();
   }
 
-  updateRiderInStore(horseUpdate) {
-    const horse = new Rider(horseUpdate);
-
-    this.riders = this.riders.map((ho) => {
-      if (ho._id === horse._id) {
-        ho = horse;
-      }
-      return ho;
-    });
+  updateRiderInStore(data) {
+    this.riders = this.riders.update(data._id, new Rider(data));
 
     this.emitChange();
   }
 
   initRidersInStore(riders) {
-    this.riders = riders.map((ho) => {
-      return new Rider(ho);
+    riders.map((rider) => {
+      this.riders = this.riders.set(rider.id, new Rider(rider));
     });
 
     this.emitChange();

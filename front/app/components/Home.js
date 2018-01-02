@@ -67,6 +67,10 @@ class Home extends Component {
 		this.navigateSomewhere('horses');
 	}
 
+  handleNaviguationRiders = () => {
+    this.navigateSomewhere('riders');
+  }
+
   handleNaviguationCalendar = () => {
     this.navigateSomewhere('calendar');
   }
@@ -107,6 +111,7 @@ class Home extends Component {
           onRequestChange={this.handleDrawerChange}
         >
           <MenuItem onTouchTap={this.handleNaviguationHorses}>Chevaux</MenuItem>
+          <MenuItem onTouchTap={this.handleNaviguationRiders}>Cavaliers</MenuItem>
           <MenuItem onTouchTap={this.handleNaviguationCalendar}>Calendrier</MenuItem>
           <MenuItem onTouchTap={this.handleCloseDrawer}>Menu Item 2</MenuItem>
         </Drawer>

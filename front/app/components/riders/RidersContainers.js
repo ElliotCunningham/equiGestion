@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
 import RidersActionCreators from '../../logic/flux/action/RidersActionCreators';
-import RiderStore from '../../logic/flux/action/RiderStore';
+import RiderStore from '../../logic/flux/store/RiderStore';
+
+import RiderFormModal from './RiderFormModal';
+import SharedToolBar from '../Shared/SharedToolBar';
 
 const _updateState = () => {
   const riders = RiderStore.getAllRiders();
@@ -13,7 +16,12 @@ const _updateState = () => {
   };
 }
 
-class RidersContainer extends Component {
+class RidersContainers extends Component {
+
+  static contextTypes = {
+    muiTheme: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired
+  };
 
   constructor(props) {
     super(props);
@@ -31,11 +39,16 @@ class RidersContainer extends Component {
   }
 
   componentWillMount() {
+    this.router = this.context.router;
     RiderStore.addChangeListener(this._bindingsChangeEvents);
   }
 
   componentWillUnMount() {
     RiderStore.removeChangeListener(this._bindingsChangeEvents)
+  }
+
+  handleNavigation = () => {
+    this.router.push('/');
   }
 
   didStateChanged(nextState) {
@@ -56,11 +69,19 @@ class RidersContainer extends Component {
   }
 
   render() {
+    console.log('the state ===>', this.state);
     return(
-      <div>Bientot la liste de tous les cavaliers</div>
+      <div className="riders_container" style={{ width: '100%', heigth: '100%' }}>
+        <RiderFormModal/>
+        <SharedToolBar
+          name="Cavaliers"
+          nbData={this.state.riders.size}
+          handleNavigation={this.handleNavigation}
+        />
+      </div>
     );
   }
 
 }
 
-export default RidersContainer;
+export default RidersContainers;
